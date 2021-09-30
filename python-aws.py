@@ -85,7 +85,7 @@ arm_images = {
     'eu-west-3': 'ami-05fcc216b8f7f4cc9',
 }
 
-safepassword = random.sample('abcdefghijklmnopqrstuvwxyz!@#$%^&*()',12)
+safepassword = str(random.sample('abcdefghijklmnopqrstuvwxyz!@#$%^&*()',12))
 
 
 class AwsApi():
