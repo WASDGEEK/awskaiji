@@ -1,4 +1,7 @@
 import time
+import random
+import string
+
 
 import boto3
 
@@ -82,6 +85,7 @@ arm_images = {
     'eu-west-3': 'ami-05fcc216b8f7f4cc9',
 }
 
+safepassword = random.sample('abcdefghijklmnopqrstuvwxyz!@#$%^&*()',12)
 
 
 class AwsApi():
@@ -181,7 +185,7 @@ sudo service iptables stop 2> /dev/null ; chkconfig iptables off 2> /dev/null ;
 sudo sed -i.bak '/^SELINUX=/cSELINUX=disabled' /etc/sysconfig/selinux;
 sudo sed -i.bak '/^SELINUX=/cSELINUX=disabled' /etc/selinux/config;
 sudo setenforce 0;
-echo root:hostloc!! |sudo chpasswd root;
+echo root:"""+safepassword+""" |sudo chpasswd root;
 sudo sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_config;
 sudo sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/g' /etc/ssh/sshd_config;
 sudo service sshd restart;
@@ -276,7 +280,7 @@ def start():
         time.sleep(5)
 
     print('========实例信息如下=========')
-    print(f'实例ID: {aApi.instance_id}, 实例IP: {aApi.ip}, 实例地区: {_region}({regions.get(_region)}), 机器平台: {_type}')
+    print(f'实例ID: {aApi.instance_id}, 实例IP: {aApi.ip}, 实例地区: {_region}({regions.get(_region)}), 机器平台: {_type}','实例密码：'+safepassword)
     return True
 
 
